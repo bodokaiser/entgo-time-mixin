@@ -21,16 +21,20 @@ func (Time) Fields() []ent.Field {
 		field.Time("created_at").
 			StructTag(`json:"createdAt,omitempty"`).
 			Immutable().
-			Default(clock.Now),
+			Default(now),
 		field.Time("updated_at").
 			StructTag(`json:"updatedAt,omitempty"`).
-			Default(clock.Now).
-			UpdateDefault(clock.Now),
+			Default(now).
+			UpdateDefault(now),
 	}
 }
 
 // Default clock for timestamps.
 var clock Clock = SecondClock{}
+
+func now() time.Time {
+	return clock.Now()
+}
 
 // SetClock changes the default clock for timestamps.
 func SetClock(c Clock) {
